@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  dind-master:
+    image: docker
+    command: ["docker","stack","deploy","--compose-file","/vagrant/SampleStack/docker-compose-swarm.yml","web"]
+    volumes:
+      - type: bind
+        source : /var/run/docker.sock
+        target : /var/run/docker.sock
+      - type: bind
+        source : /vagrant
+        target : /vagrant
+    deploy:
+      restart_policy:
+        condition: none
+      placement:
+        constraints: [node.role == manager]
+
