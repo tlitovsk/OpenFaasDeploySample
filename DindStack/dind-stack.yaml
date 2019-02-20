@@ -3,7 +3,7 @@ version: '3.7'
 services:
   dind-master:
     image: docker
-    command: ["docker","stack","deploy","--compose-file","/vagrant/SampleStack/docker-compose-swarm.yml","web"]
+    command: ["docker","stack","deploy","--compose-file","/vagrant/SampleStack/swarm/docker-compose.yml","web"]
     volumes:
       - type: bind
         source : /var/run/docker.sock

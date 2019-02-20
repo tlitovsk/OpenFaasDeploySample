@@ -1,24 +1,18 @@
 version: '3'
-
 services:
   web1:
     image: tlitovsk/swarm-writer:latest
-    build: writer
+    build: ../writer
     ports:
       - "8000:8000"
     volumes:
        - db:/var/demo
   web2:
     image: tlitovsk/swarm-reader:latest
-    build: reader
+    build: ../reader
     ports:
       - "8001:8000"
     volumes:
        - db:/var/demo
 volumes:
   db:
-    driver: local
-    driver_opts:
-      type: "nfs"
-      o: addr=192.168.50.10,vers=4,nolock,soft,rw
-      device: ":/web_share"
