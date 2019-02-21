@@ -1,13 +1,5 @@
 $workers=1
 
-$script_for_docker = <<-SCRIPT
-sudo apt-get update
-sudo apt-get install -y docker.io git nfs-common
-sudo systemctl start docker
-sudo systemctl enable docker
-sudo usermod -aG docker vagrant
-SCRIPT
-
 $script_for_docker_swarm_master = <<-SCRIPT
 docker swarm init --advertise-addr 192.168.50.10
 docker swarm join-token -q worker > /vagrant/token
@@ -33,7 +25,9 @@ Vagrant.configure("2") do |config|
       v.memory = 1024
       v.cpus = 1
     end
-    docker_config.vm.provision "shell", inline: $script_for_docker
+    docker_config.vm.provision "ansible", playbook: "machines/bootstrap.yaml"
+    docker_config.vm.provision "ansible", playbook: "machines/docker.yaml"
+    docker_config.vm.provision "ansible", playbook: "machines/nfs.yaml"
     docker_config.vm.provision "shell", inline: $script_for_docker_swarm_master
   end
   
@@ -46,7 +40,9 @@ Vagrant.configure("2") do |config|
         v.memory = 1024
         v.cpus = 1
       end
-      docker_config.vm.provision "shell", inline: $script_for_docker
+      docker_config.vm.provision "ansible", playbook: "machines/bootstrap.yaml"
+      docker_config.vm.provision "ansible", playbook: "machines/docker.yaml"
+      docker_config.vm.provision "ansible", playbook: "machines/nfs.yaml"
       docker_config.vm.provision "shell", inline: $script_for_docker_swarm_worker
     end
   end
