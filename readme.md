@@ -1,4 +1,7 @@
-# swarm with nfs volume demo
+# swarm cluster to demo
+- nfs volume shared between containers
+- simple web app
+- docker in docker deployment of stack to be used by jenkins and CI testing engines
 
 # running
 - Just install vagrant and run ./run-stack-dind.sh
