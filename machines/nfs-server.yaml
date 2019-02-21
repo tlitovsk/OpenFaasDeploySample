@@ -1,0 +1,17 @@
+---
+  - name: Create nfs shared dir
+    file:
+      path: /srv/nfsshare/web_share
+      state: directory
+
+  - name: Building NFS server
+    docker_container:
+      name: nfsServer
+      image: itsthenetwork/nfs-server-alpine:latest
+      state: started
+      network_mode: host
+      privileged: true
+      volumes:
+        - "/srv/nfsshare:/nfsshare"
+      env:
+        SHARED_DIRECTORY: /nfsshare

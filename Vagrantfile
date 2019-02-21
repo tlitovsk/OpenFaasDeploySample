@@ -3,12 +3,6 @@ $workers=1
 $script_for_docker_swarm_master = <<-SCRIPT
 docker swarm init --advertise-addr 192.168.50.10
 docker swarm join-token -q worker > /vagrant/token
-
-mkdir -p /srv/nfsshare/web_share
-docker run -d --net=host --name nfs \
-      --privileged -v /srv/nfsshare:/nfsshare \
-      -e SHARED_DIRECTORY=/nfsshare itsthenetwork/nfs-server-alpine:latest
-
 SCRIPT
 
 $script_for_docker_swarm_worker = <<-SCRIPT
@@ -26,8 +20,7 @@ Vagrant.configure("2") do |config|
       v.cpus = 1
     end
     docker_config.vm.provision "ansible", playbook: "machines/bootstrap.yaml"
-    docker_config.vm.provision "ansible", playbook: "machines/docker.yaml"
-    docker_config.vm.provision "ansible", playbook: "machines/nfs.yaml"
+    docker_config.vm.provision "ansible", playbook: "machines/master.yaml"
     docker_config.vm.provision "shell", inline: $script_for_docker_swarm_master
   end
   
@@ -41,8 +34,7 @@ Vagrant.configure("2") do |config|
         v.cpus = 1
       end
       docker_config.vm.provision "ansible", playbook: "machines/bootstrap.yaml"
-      docker_config.vm.provision "ansible", playbook: "machines/docker.yaml"
-      docker_config.vm.provision "ansible", playbook: "machines/nfs.yaml"
+      docker_config.vm.provision "ansible", playbook: "machines/worker.yaml"
       docker_config.vm.provision "shell", inline: $script_for_docker_swarm_worker
     end
   end

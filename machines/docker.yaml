@@ -1,11 +1,11 @@
 ---
-- hosts: all
-  become: yes
-  tasks:
   - name: Docker deb packages
     apt: name={{item}} state=present
     with_items:
     - docker.io
+    - python-pip
+  - name: Docker py for ansible docker managment
+    pip: name=docker-py
   - name: Adding vagrant to docker user 
     user: name=vagrant
           group=docker

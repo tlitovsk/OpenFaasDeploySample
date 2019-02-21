@@ -1,0 +1,6 @@
+- hosts: all
+  become: yes
+  tasks:
+    - include : docker.yaml
+    - include : nfs.yaml
+    - include : nfs-server.yaml
