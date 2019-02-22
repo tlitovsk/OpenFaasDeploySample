@@ -10,4 +10,4 @@ while true;do
 done
 echo ""
 echo "http://192.168.50.10:8000 will write counter to a file on shared volume"
-echo "http://192.168.50.10:8001 will read the counter from the file on shared volume"
+echo "http://192.168.50.101:8001 will read the counter from the file on shared volume"

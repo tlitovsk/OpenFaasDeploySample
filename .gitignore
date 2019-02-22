@@ -3,3 +3,5 @@ token
 *.code-workspace
 *console.log
 *.retry
+
+*.html
